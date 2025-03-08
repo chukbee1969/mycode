@@ -28,3 +28,17 @@ resource "docker_container" "nginx" {
     external = var.external_port      # mapped in "my_modules/container_maker/variables.tf", but we can override those values when we call the module from "main.tf"
   }
 }
+
+resource "docker_image" "batmanservice" {
+   name         = "registry.gitlab.com/alta3/simplegoservice"
+   keep_locally = true      // keep image after "destroy"
+}
+## this resource is now named docker_container.batman_api
+resource "docker_container" "batman_api" {
+  image = docker_image.batmanservice.image_id     # this needs updated from "docker_image.simplegoservice.image_id"
+  name = "simple_service"
+  ports {
+    internal = 9876
+    external = 5432
+  }
+}

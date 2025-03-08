@@ -11,7 +11,7 @@
 
 # an output value we want to extract from the child module
 output "root_returning_child_module_output" {
-   value = module.batcave.container_network_info       # module.MODULE NAME.OUTPUT NAME
-   description = "ID of the docker image "                  # description of the output value
+  value       = module.batcave.container_network_info # module.MODULE NAME.OUTPUT NAME
+  description = "ID of the docker image "             # description of the output value
 }
 

@@ -3,7 +3,7 @@
                   within a cloud module, we might want to have something like a region mapped as a variable in the root main.tf */
 
 variable "container_name_from_root" {
-    description = "name of the container to apply"
-    type = string
-    default = "defaultContainerNamefromRootModule"   # override this if you want to change the name used by the child module
+  description = "name of the container to apply"
+  type        = string
+  default     = "defaultContainerNamefromRootModule" # override this if you want to change the name used by the child module
 }

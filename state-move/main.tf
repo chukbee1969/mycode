@@ -16,10 +16,10 @@ terraform {
 #     keep_locally = true      // keep image after "destroy"
 #   }
 
-resource "docker_image" "batmanservice" {
-   name         = "registry.gitlab.com/alta3/simplegoservice"
-   keep_locally = true      // keep image after "destroy"
-}
+#   resource "docker_image" "batmanservice" {
+#     name         = "registry.gitlab.com/alta3/simplegoservice"
+#     keep_locally = true      // keep image after "destroy"
+#   }
 
 
 #   resource "docker_container" "simplegoservice" {
@@ -33,14 +33,14 @@ resource "docker_image" "batmanservice" {
 
 
 ## this resource is now named docker_container.batman_api
-resource "docker_container" "batman_api" {
-  image = docker_image.batmanservice.image_id     # this needs updated from "docker_image.simplegoservice.image_id"
-  name = "simple_service"
-  ports {
-    internal = 9876
-    external = 5432
-  }
-}
+#   resource "docker_container" "batman_api" {
+#     image = docker_image.batmanservice.image_id     # this needs updated from "docker_image.simplegoservice.image_id"
+#     name = "simple_service"
+#   ports {
+#     internal = 9876
+#     external = 5432
+#   }
+#  }
 
 
 #   # the "module" block is reaching for a prebuilt solution
@@ -51,8 +51,8 @@ resource "docker_container" "batman_api" {
 
 
 # the "module" block is reaching for a prebuilt solution
-module "batcave" {                                          # this needs updated from "my_container"
-    source = "./my_modules/container_maker"                 # path to our child module "container_maker"
-    container_name = var.container_name_from_root           # this value provided in the root will override the value for var.container_name within the child module
+module "batcave" {                                # this needs updated from "my_container"
+  source         = "./my_modules/container_maker" # path to our child module "container_maker"
+  container_name = var.container_name_from_root   # this value provided in the root will override the value for var.container_name within the child module
 }
 
