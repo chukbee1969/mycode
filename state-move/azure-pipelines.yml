@@ -1,0 +1,73 @@
+# Author: @RZFeeser
+# Introduction to Azure DevOp Pipelines for Terraform
+#
+# Resources:
+# Examples by Microsoft - https://aka.ms/yaml
+
+# anytime "main" branch is modified
+trigger:
+- main
+
+pool:
+  vmImage: ubuntu-latest
+
+steps:
+- script: echo Hello, world!
+  displayName: 'Run a one-line script'
+
+- script: |
+    echo Add other tasks to build, test, and deploy your project.
+    echo See https://aka.ms/yaml
+  displayName: 'YAML formatting allows running a multi-line script'
+
+- script:
+    echo $ENV_VARIABLE_NAME $ENV_VARIABLE_NAME2
+  env:
+    ENV_VARIABLE_NAME: "rzfeeser"
+    ENV_VARIABLE_NAME2: 42
+  displayName: 'inject environmental variables into your job' 
+
+# Per YAML rules, unless it starts with a hypen "-", only indentation level matters
+# this is the same block as the one above
+- script:
+    echo $ENV_VARIABLE_NAME $ENV_VARIABLE_NAME2
+  displayName: 'inject environmental variables into your job' 
+  env:
+    ENV_VARIABLE_NAME2: 42
+    ENV_VARIABLE_NAME: "rzfeeser"
+
+# we can map secrets via the UI by clicking on "Variables" in the upper right corner of the Azure editor
+# variables are stored in 2056 encryption 
+# you still need to map variables in the env section
+- script:
+    echo $ENV_SECRET
+  env:
+    ENV_SECRET: $(MYSECRETTOKENORPASSWORD)   # you still need to "inject" the secret from azure into the the job environment
+
+# This would only necessary if we needed to select a specific version of Terraform
+#- task: TerraformInstaller@1
+#  inputs:
+#    terraformVersion: 'latest'
+
+- task: TerraformCLI@1
+  inputs:
+    command: 'init'
+    allowTelemetryCollection: true
+  displayName: 'terraform init - install providers'
+
+- task: TerraformCLI@1
+  inputs:
+    command: 'validate'
+    allowTelemetryCollection: true
+  displayName: 'terraform validate - ensure valid configuration'
+
+- task: TerraformCLI@1
+  inputs:
+    command: 'apply'
+    allowTelemetryCollection: true
+  displayName: 'terraform apply - run configuration'
+
+- task: TerraformCLI@1
+  inputs:
+    command: 'destroy'
+    allowTelemetryCollection: true
