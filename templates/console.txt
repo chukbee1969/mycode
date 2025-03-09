@@ -1,0 +1,3 @@
+templatefile("${path.module}/websockets.tftpl", { port = 8080, ip_addrs = ["10.0.0.1", "10.0.0.2"] })
+
+templatefile("${path.module}/websockets.tftpl", {config = {"x" = "y", "foo" = "bar", "key" = "value"}})
